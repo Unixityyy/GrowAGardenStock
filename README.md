@@ -6,3 +6,4 @@ This is an app I made to check stock for grow a garden. it uses an [API](https:/
 - [ ] add notifications
 - [ ] get gears to work
 - [ ] get eggs to work
+- [ ] switch from api to websocket
