@@ -1,5 +1,6 @@
 package com.unixity.gagstock;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -32,7 +33,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout scrollContent;
     private ScrollView scrollContainer;
     private TextView loading;
-    private Button btn1, btn2, btn3, btn4;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,16 +58,16 @@ public class MainActivity extends AppCompatActivity {
         scrollContent = findViewById(R.id.scrollContent);
         scrollContainer = findViewById(R.id.scrollContainer);
         loading = findViewById(R.id.loading);
-        btn1 = findViewById(R.id.btn1);
-        btn2 = findViewById(R.id.btn2);
-        btn3 = findViewById(R.id.btn3);
-        btn4 = findViewById(R.id.btn4);
+        Button btn1 = findViewById(R.id.btn1);
+        Button btn2 = findViewById(R.id.btn2);
+        Button btn3 = findViewById(R.id.btn3);
+        Button btn4 = findViewById(R.id.btn4);
 
         btn1.setOnClickListener(v -> {
             scrollContent.removeAllViews();
             scrollContainer.setVisibility(View.VISIBLE);
             loading.setVisibility(ViewPager2.VISIBLE);
-            loading.setText("Loading...");
+            loading.setText(R.string.load);
             fetchAndDisplaySeeds();
         });
 
@@ -84,9 +84,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btn4.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Unixityyy/GrowAGardenStock"));
-            if (browserIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(browserIntent);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://github.com/Unixityyy/GrowAGardenStock"));
+            intent.addCategory(Intent.CATEGORY_BROWSABLE);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
             }
         });
 
@@ -95,65 +99,66 @@ public class MainActivity extends AppCompatActivity {
 
     private void fetchAndDisplaySeeds() {
         String infoUrl = "https://growagardenapi.vercel.app/api/item-info";
-        String stockUrl = "https://growagardenapi.vercel.app/api/stock/GetStock";
+        String stockUrl = "https://api.joshlei.com/v2/growagarden/stock";
         TextView loading = findViewById(R.id.loading);
+        loading.setText(R.string.load);
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
+        // Step 1: Fetch item info to get fruit names and ordering
         JsonArrayRequest infoRequest = new JsonArrayRequest(Request.Method.GET, infoUrl, null,
                 infoResponse -> {
                     try {
-                        Map<String, String> imageMap = new HashMap<>();
                         List<String> seedOrder = new ArrayList<>();
+
                         for (int i = 0; i < infoResponse.length(); i++) {
                             JSONObject item = infoResponse.getJSONObject(i);
                             if ("Fruits".equals(item.optString("category"))) {
-                                String name = item.getString("name");
-                                String image = item.optString("image", null);
-                                seedOrder.add(name);
-                                if (image != null) imageMap.put(name, image);
+                                seedOrder.add(item.getString("name"));
                             }
                         }
 
+                        // Step 2: Fetch new stock data
                         JsonObjectRequest stockRequest = new JsonObjectRequest(Request.Method.GET, stockUrl, null,
                                 stockResponse -> {
                                     try {
-                                        JSONObject data = stockResponse.getJSONObject("Data");
-                                        JSONArray seeds = data.getJSONArray("seeds");
+                                        JSONArray seedStock = stockResponse.getJSONArray("seed_stock");
+                                        Map<String, JSONObject> stockMap = new HashMap<>();
 
-                                        Map<String, JSONObject> seedMap = new HashMap<>();
-                                        for (int i = 0; i < seeds.length(); i++) {
-                                            JSONObject seed = seeds.getJSONObject(i);
-                                            seedMap.put(seed.getString("name"), seed);
+                                        for (int i = 0; i < seedStock.length(); i++) {
+                                            JSONObject seed = seedStock.getJSONObject(i);
+                                            stockMap.put(seed.getString("display_name"), seed);
                                         }
 
                                         loading.setText("");
-                                        for (String seedName : seedOrder) {
-                                            if (seedMap.containsKey(seedName)) {
-                                                String stock = seedMap.get(seedName).getString("stock");
-                                                String imageUrl = imageMap.getOrDefault(seedName, "");
-                                                addSeedCard(seedName, stock, imageUrl);
+                                        for (String name : seedOrder) {
+                                            if (stockMap.containsKey(name)) {
+                                                JSONObject seedData = stockMap.get(name);
+                                                assert seedData != null;
+                                                String quantity = String.valueOf(seedData.getInt("quantity"));
+                                                String imageUrl = seedData.optString("icon", "");
+                                                addSeedCard(name, quantity, imageUrl);
                                             }
                                         }
-
                                     } catch (Exception e) {
-                                        Log.e("SEED_PARSE", "Error", e);
+                                        Log.e("NEW_STOCK_PARSE", "Error parsing stock", e);
                                     }
                                 },
-                                error -> Log.e("SEED_API", "Failed", error)
+                                error -> Log.e("NEW_STOCK_API", "Stock API failed", error)
                         );
 
                         queue.add(stockRequest);
                     } catch (Exception e) {
-                        Log.e("INFO_PARSE", "Error", e);
+                        Log.e("INFO_PARSE", "Error parsing info", e);
                     }
                 },
-                error -> Log.e("INFO_API", "Failed", error)
+                error -> Log.e("INFO_API", "Failed to load item info", error)
         );
 
         queue.add(infoRequest);
     }
 
+    @SuppressLint("SetTextI18n")
     private void addSeedCard(String name, String stock, String imageUrl) {
         Typeface gagFont = ResourcesCompat.getFont(this, R.font.gagfont);
         CardView card = new CardView(this);
