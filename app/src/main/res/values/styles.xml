@@ -1,0 +1,20 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="GagButton" parent="android:Widget.Button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/gagfont</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:background">@drawable/button_flat</item>
+        <item name="android:theme">@android:style/Theme.Material</item>
+        <item name="colorPrimary">@color/btn</item>
+        <item name="colorPrimaryContainer">@color/btn</item>
+        <item name="colorSurface">@color/btn</item>
+        <item name="colorSurfaceContainerHighest">@color/btn</item>
+    </style>
+</resources>
