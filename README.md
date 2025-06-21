@@ -1,5 +1,5 @@
 # GAG Stock
-This is an app I made to check stock for grow a garden. it uses an ~~[API](https://api.joshlei.com/v2/growagarden/stock)~~ [WebSocket]() to get the stocks.
+This is an app I made to check stock for grow a garden. it uses an ~~[API](https://api.joshlei.com/v2/growagarden/stock)~~ [WebSocket](https://discord.com/invite/kCryJ8zPwy) to get the stocks.
 ---
 ## Checklist
 - [x] ~~find a better api~~
@@ -7,5 +7,5 @@ This is an app I made to check stock for grow a garden. it uses an ~~[API](https
 - [ ] get gears to work
 - [ ] get eggs to work
 - [x] ~~switch from api to websocket~~
-- [ ] make the user join a dc server
+- [x] ~~make the user join a dc server~~
 (its the service i use, they added a requirement to send the discord user id)
