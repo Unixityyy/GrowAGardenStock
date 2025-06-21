@@ -1,4 +1,35 @@
 <resources>
     <string name="app_name">GAG Stock</string>
+    <!-- the below strings are to make git and the ide stfu -->
     <string name="load">Loading…</string>
+    <string name="seeds">Seeds</string>
+    <string name="gears">Gears</string>
+    <string name="eggs">Eggs</string>
+    <string name="github">Github</string>
+    <string name="notifs">Notifs</string>
+    <string name="save">Save</string>
+    <string name="grape">Grape</string>
+    <string name="notification_settings">Notification Settings\n(scroll)</string>
+    <string name="corn">Corn</string>
+    <string name="daffodil">Daffodil</string>
+    <string name="watermelon">Watermelon</string>
+    <string name="apple">Apple</string>
+    <string name="pumpkin">Pumpkin</string>
+    <string name="bamboo">Bamboo</string>
+    <string name="coconut">Coconut</string>
+    <string name="cactus">Cactus</string>
+    <string name="dragon_fruit">Dragon Fruit</string>
+    <string name="mango">Mango</string>
+    <string name="mushroom">Mushroom</string>
+    <string name="cacao">Cacao</string>
+    <string name="pepper">Pepper</string>
+    <string name="lemon">Lemon</string>
+    <string name="pineapple">Pineapple</string>
+    <string name="peach">Peach</string>
+    <string name="pear">Pear</string>
+    <string name="papaya">Papaya</string>
+    <string name="banana">Banana</string>
+    <string name="passion_fruit">Passion Fruit</string>
+    <string name="soul_fruit">Soul Fruit</string>
+    <string name="cursed_fruit">Cursed Fruit</string>
 </resources>

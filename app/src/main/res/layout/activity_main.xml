@@ -17,17 +17,17 @@
     <Button
         style="@style/GagButton"
         android:id="@+id/btn1"
-        android:text="Seeds"
+        android:text="@string/seeds"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btn2"
         android:layout_marginStart="8dp"
-        android:background="@drawable/button_flat" />
+        android:background="@drawable/button_blue" />
 
     <Button
         style="@style/GagButton"
         android:id="@+id/btn2"
-        android:text="Gears"
+        android:text="@string/gears"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn1"
         app:layout_constraintEnd_toStartOf="@id/btn3" />
@@ -35,18 +35,27 @@
     <Button
         style="@style/GagButton"
         android:id="@+id/btn3"
-        android:text="Eggs"
+        android:text="@string/eggs"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn2"
-        app:layout_constraintEnd_toStartOf="@id/btn4" />
+        app:layout_constraintEnd_toStartOf="@id/btn5" />
+
+    <Button
+        style="@style/GagButton"
+        android:id="@+id/btn5"
+        android:text="@string/notifs"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn3"
+        app:layout_constraintEnd_toEndOf="@id/btn4" />
 
     <Button
         style="@style/GagButton"
         android:id="@+id/btn4"
-        android:text="Github"
+        android:text="@string/github"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btn3"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/btn5"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp" />
 
     <View
         android:id="@+id/button_divider"
@@ -72,7 +81,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:maxLines="1"
-        android:text="Loading..."
+        android:text="@string/load"
         android:fontFamily="@font/gagfont"
         android:textColor="@color/white" />
 

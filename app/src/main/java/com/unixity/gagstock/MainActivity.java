@@ -1,9 +1,13 @@
 package com.unixity.gagstock;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,8 +19,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -26,7 +32,6 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -38,6 +43,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.bumptech.glide.Glide;
+
+import okhttp3.OkHttpClient;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
 
 public class MainActivity extends AppCompatActivity {
     private LinearLayout scrollContent;
@@ -55,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        Intent serviceIntent = new Intent(this, BackgroundService.class);
+        ContextCompat.startForegroundService(this, serviceIntent);
+        SharedPreferences prefs = getSharedPreferences("notif_prefs", MODE_PRIVATE);
         scrollContent = findViewById(R.id.scrollContent);
         scrollContainer = findViewById(R.id.scrollContainer);
         loading = findViewById(R.id.loading);
@@ -62,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         Button btn2 = findViewById(R.id.btn2);
         Button btn3 = findViewById(R.id.btn3);
         Button btn4 = findViewById(R.id.btn4);
+        Button btn5 = findViewById(R.id.btn5);
 
         btn1.setOnClickListener(v -> {
             scrollContent.removeAllViews();
@@ -94,18 +108,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btn5.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SetNotifsActivity.class);
+            startActivity(intent);
+        });
+
         fetchAndDisplaySeeds();
     }
 
     private void fetchAndDisplaySeeds() {
         String infoUrl = "https://growagardenapi.vercel.app/api/item-info";
-        String stockUrl = "https://api.joshlei.com/v2/growagarden/stock";
-        TextView loading = findViewById(R.id.loading);
         loading.setText(R.string.load);
-
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        // Step 1: Fetch item info to get fruit names and ordering
         JsonArrayRequest infoRequest = new JsonArrayRequest(Request.Method.GET, infoUrl, null,
                 infoResponse -> {
                     try {
@@ -118,44 +133,88 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
 
-                        // Step 2: Fetch new stock data
-                        JsonObjectRequest stockRequest = new JsonObjectRequest(Request.Method.GET, stockUrl, null,
-                                stockResponse -> {
-                                    try {
-                                        JSONArray seedStock = stockResponse.getJSONArray("seed_stock");
-                                        Map<String, JSONObject> stockMap = new HashMap<>();
+                        final ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                        cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
+                            @Override
+                            public void onAvailable(@NonNull Network network) {
+                                Log.d("Network", "Connected: " + network);
+                                connectToEndpoint(seedOrder);
+                            }
 
-                                        for (int i = 0; i < seedStock.length(); i++) {
-                                            JSONObject seed = seedStock.getJSONObject(i);
-                                            stockMap.put(seed.getString("display_name"), seed);
-                                        }
-
-                                        loading.setText("");
-                                        for (String name : seedOrder) {
-                                            if (stockMap.containsKey(name)) {
-                                                JSONObject seedData = stockMap.get(name);
-                                                assert seedData != null;
-                                                String quantity = String.valueOf(seedData.getInt("quantity"));
-                                                String imageUrl = seedData.optString("icon", "");
-                                                addSeedCard(name, quantity, imageUrl);
-                                            }
-                                        }
-                                    } catch (Exception e) {
-                                        Log.e("NEW_STOCK_PARSE", "Error parsing stock", e);
-                                    }
-                                },
-                                error -> Log.e("NEW_STOCK_API", "Stock API failed", error)
-                        );
-
-                        queue.add(stockRequest);
+                            @Override
+                            public void onLost(@NonNull Network network) {
+                                Log.d("Network", "Disconnected");
+                            }
+                        });
+                        connectToEndpoint(seedOrder);
                     } catch (Exception e) {
-                        Log.e("INFO_PARSE", "Error parsing info", e);
+                        Log.e("INFO_PARSE", "Error parsing item info", e);
                     }
                 },
                 error -> Log.e("INFO_API", "Failed to load item info", error)
         );
 
         queue.add(infoRequest);
+    }
+
+    private void connectToEndpoint(List<String> seedOrder) {
+        OkHttpClient client = new OkHttpClient();
+
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url("wss://websocket.joshlei.com/growagarden/")
+                .build();
+
+        client.newWebSocket(request, new WebSocketListener() {
+            @Override
+            public void onOpen(WebSocket webSocket, okhttp3.Response response) {
+                Log.d("WebSocket", "Connected to endpoint");
+            }
+
+            @Override
+            public void onMessage(WebSocket webSocket, String text) {
+                try {
+                    JSONObject json = new JSONObject(text);
+                    if (!json.has("seed_stock")) {
+                        Log.d("WebSocket", "Skipping irrelevant packet");
+                        return;
+                    }
+
+                    JSONArray seedStock = json.getJSONArray("seed_stock");
+                    Map<String, JSONObject> stockMap = new HashMap<>();
+
+                    for (int i = 0; i < seedStock.length(); i++) {
+                        JSONObject seed = seedStock.getJSONObject(i);
+                        stockMap.put(seed.getString("display_name"), seed);
+                        if (seed.getString("display_name").equals("a")) {
+
+                        }
+                    }
+
+                    runOnUiThread(() -> {
+                        scrollContent.removeAllViews();
+                        loading.setText("");
+                        for (String name : seedOrder) {
+                            if (stockMap.containsKey(name)) {
+                                JSONObject seed = stockMap.get(name);
+                                String quantity = String.valueOf(seed.optInt("quantity", 0));
+                                String icon = seed.optString("icon", "");
+                                addSeedCard(name, quantity, icon);
+                            }
+                        }
+                    });
+
+                } catch (Exception e) {
+                    Log.e("WebSocket", "Error parsing message", e);
+                }
+            }
+
+            @Override
+            public void onFailure(WebSocket webSocket, Throwable t, okhttp3.Response response) {
+                Log.e("WebSocket", "Connection failed", t);
+            }
+        });
+
+        client.dispatcher().executorService().shutdown();
     }
 
     @SuppressLint("SetTextI18n")

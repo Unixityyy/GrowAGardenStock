@@ -1,20 +1,49 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <style name="GagButton" parent="android:Widget.Button">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">@font/gagfont</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:padding">8dp</item>
-        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:padding">16dp</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:foreground">?attr/selectableItemBackground</item>
         <item name="android:backgroundTint">@null</item>
-        <item name="android:background">@drawable/button_flat</item>
+        <item name="android:background">@drawable/button_blue</item>
         <item name="android:theme">@android:style/Theme.Material</item>
         <item name="colorPrimary">@color/btn</item>
         <item name="colorPrimaryContainer">@color/btn</item>
         <item name="colorSurface">@color/btn</item>
         <item name="colorSurfaceContainerHighest">@color/btn</item>
+    </style>
+
+    <style name="SettingsButton" parent="android:Widget.Button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/gagfont</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:background">@drawable/button_brown</item>
+        <item name="android:theme">@android:style/Theme.Material</item>
+        <item name="colorPrimary">@color/gagbkrd</item>
+        <item name="colorPrimaryContainer">@color/gagbkrd</item>
+        <item name="colorSurface">@color/gagbkrd</item>
+        <item name="colorSurfaceContainerHighest">@color/gagbkrd</item>
+    </style>
+
+    <style name="NotifCheckbox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintTop_toBottomOf">@id/settingsText</item>
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:fontFamily">@font/gagfont</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">45sp</item>
+        <item name="android:background">@color/gagbkrd</item>
+        <item name="android:layout_marginLeft">50dp</item>
     </style>
 </resources>
