@@ -32,4 +32,19 @@
     <string name="passion_fruit">Passion Fruit</string>
     <string name="soul_fruit">Soul Fruit</string>
     <string name="cursed_fruit">Cursed Fruit</string>
+    <string name="wait">Wait!</string>
+    <string name="join_dc_text">The service we use requires you to have a discord account and to be in their server.\nPlease <a href="https://discord.com/invite/kCryJ8zPwy">join their server</a> and enter your Discord User ID in the white box below.</string>
+    <string name="ember_lily">Ember Lily</string>
+    <string name="beanstalk">Beanstalk</string>
+    <string name="sugar_apple">Sugar Apple</string>
+    <string name="cauliflower">Cauliflower</string>
+    <string name="green_apple">Green Apple</string>
+    <string name="avocado">Avacado</string>
+    <string name="kiwi">Kiwi</string>
+    <string name="bell_pepper">Bell Pepper</string>
+    <string name="prickly_pear">Prickly Pear</string>
+    <string name="loquat">Loquat</string>
+    <string name="feijoa">Feijoa</string>
+    <string name="validate">Click me to validate!</string>
+    <string name="validating">Validating...</string>
 </resources>

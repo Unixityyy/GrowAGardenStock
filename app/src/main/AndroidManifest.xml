@@ -31,6 +31,10 @@
             android:name=".SetNotifsActivity"
             android:exported="false"
             android:enableOnBackInvokedCallback="true" />
+        <activity
+            android:name=".IdActivity"
+            android:exported="false"
+            android:enableOnBackInvokedCallback="false" />
         <service
             android:name=".BackgroundService"
             android:exported="false"

@@ -1,13 +1,12 @@
 package com.unixity.gagstock;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,11 +28,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -52,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout scrollContent;
     private ScrollView scrollContainer;
     private TextView loading;
+    private SharedPreferences prefs;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -64,10 +59,16 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        Intent serviceIntent = new Intent(this, BackgroundService.class);
-        ContextCompat.startForegroundService(this, serviceIntent);
-        SharedPreferences prefs = getSharedPreferences("notif_prefs", MODE_PRIVATE);
+        if (!isMyServiceRunning()) {
+            Intent serviceIntent = new Intent(this, BackgroundService.class);
+            ContextCompat.startForegroundService(this, serviceIntent);
+        }
+        prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        if (prefs.getInt("dcid", 0) == 0)
+        {
+            Intent discordIntent = new Intent(MainActivity.this, IdActivity.class);
+            startActivity(discordIntent);
+        }
         scrollContent = findViewById(R.id.scrollContent);
         scrollContainer = findViewById(R.id.scrollContainer);
         loading = findViewById(R.id.loading);
@@ -116,52 +117,83 @@ public class MainActivity extends AppCompatActivity {
         fetchAndDisplaySeeds();
     }
 
+    private boolean isMyServiceRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (BackgroundService.class.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void fetchAndDisplaySeeds() {
-        String infoUrl = "https://growagardenapi.vercel.app/api/item-info";
+//        String infoUrl = "https://growagardenapi.vercel.app/api/item-info";
         loading.setText(R.string.load);
-        RequestQueue queue = Volley.newRequestQueue(this);
+//        RequestQueue queue = Volley.newRequestQueue(this);
+        List<String> seedOrder = getStrings();
+//        JsonArrayRequest infoRequest = new JsonArrayRequest(Request.Method.GET, infoUrl, null,
+//                infoResponse -> {
+//                    try {
+//
+//                        for (int i = 0; i < infoResponse.length(); i++) {
+//                            JSONObject item = infoResponse.getJSONObject(i);
+//                            if ("Fruits".equals(item.optString("category"))) {
+//                                seedOrder.add(item.getString("name"));
+//                            }
+//                        }
+//
+//                        final ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+//                        cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
+//                            @Override
+//                            public void onAvailable(@NonNull Network network) {
+//                                Log.d("Network", "Connected: " + network);
+//                                connectToEndpoint(seedOrder);
+//                            }
+//
+//                            @Override
+//                            public void onLost(@NonNull Network network) {
+//                                Log.d("Network", "Disconnected");
+//                            }
+//                        });
+//
+//                    } catch (Exception e) {
+//                        Log.e("INFO_PARSE", "Error parsing item info", e);
+//                    }
+//                },
+//                error -> Log.e("INFO_API", "Failed to load item info", error)
+//        );
+        connectToEndpoint(seedOrder);
+//        queue.add(infoRequest);
+    }
 
-        JsonArrayRequest infoRequest = new JsonArrayRequest(Request.Method.GET, infoUrl, null,
-                infoResponse -> {
-                    try {
-                        List<String> seedOrder = new ArrayList<>();
-
-                        for (int i = 0; i < infoResponse.length(); i++) {
-                            JSONObject item = infoResponse.getJSONObject(i);
-                            if ("Fruits".equals(item.optString("category"))) {
-                                seedOrder.add(item.getString("name"));
-                            }
-                        }
-
-                        final ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                        cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
-                            @Override
-                            public void onAvailable(@NonNull Network network) {
-                                Log.d("Network", "Connected: " + network);
-                                connectToEndpoint(seedOrder);
-                            }
-
-                            @Override
-                            public void onLost(@NonNull Network network) {
-                                Log.d("Network", "Disconnected");
-                            }
-                        });
-                        connectToEndpoint(seedOrder);
-                    } catch (Exception e) {
-                        Log.e("INFO_PARSE", "Error parsing item info", e);
-                    }
-                },
-                error -> Log.e("INFO_API", "Failed to load item info", error)
-        );
-
-        queue.add(infoRequest);
+    @NonNull
+    private static List<String> getStrings() {
+        List<String> seedOrder = new ArrayList<>();
+        seedOrder.add("Carrot");
+        seedOrder.add("Strawberry");
+        seedOrder.add("Blueberry");
+        seedOrder.add("Tomato");
+        seedOrder.add("Cauliflower");
+        seedOrder.add("Watermelon");
+        seedOrder.add("Green Apple");
+        seedOrder.add("Avocado");
+        seedOrder.add("Banana");
+        seedOrder.add("Pineapple");
+        seedOrder.add("Kiwi");
+        seedOrder.add("Bell Pepper");
+        seedOrder.add("Prickly Pear");
+        seedOrder.add("Loquat");
+        seedOrder.add("Feijoa");
+        seedOrder.add("Sugar Apple");
+        return seedOrder;
     }
 
     private void connectToEndpoint(List<String> seedOrder) {
         OkHttpClient client = new OkHttpClient();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
-                .url("wss://websocket.joshlei.com/growagarden/")
+                .url("wss://websocket.joshlei.com/growagarden?user_id=" + prefs.getInt("dcid", 0))
                 .build();
 
         client.newWebSocket(request, new WebSocketListener() {
@@ -185,9 +217,6 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < seedStock.length(); i++) {
                         JSONObject seed = seedStock.getJSONObject(i);
                         stockMap.put(seed.getString("display_name"), seed);
-                        if (seed.getString("display_name").equals("a")) {
-
-                        }
                     }
 
                     runOnUiThread(() -> {
@@ -238,7 +267,9 @@ public class MainActivity extends AppCompatActivity {
         imageParams.setMargins(0, 0, 16, 0);
         image.setLayoutParams(imageParams);
         image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        Glide.with(this).load(imageUrl).into(image);
+        if (!isFinishing() && !isDestroyed()) {
+            Glide.with(this).load(imageUrl).into(image);
+        }
 
         LinearLayout textLayout = new LinearLayout(this);
         textLayout.setOrientation(LinearLayout.VERTICAL);

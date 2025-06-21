@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/start_activity"
+    android:background="@color/btn"
+    tools:context=".IdActivity" >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/studs" />
+
+    <TextView
+        android:id="@+id/waitText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        android:text="@string/wait"
+        android:fontFamily="@font/gagfont"
+        android:textSize="60sp"
+        android:layout_margin="30dp"
+        android:textColor="@color/white"
+        android:background="@color/gagbkrd"/>
+
+    <Button
+        style="@style/SettingsButton"
+        android:id="@+id/joinDiscord"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/waitText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        android:text="@string/join_dc_text"
+        android:fontFamily="@font/gagfont"
+        android:textSize="35sp"
+        android:layout_margin="30dp"
+        android:autoLink="web"
+        android:linksClickable="true"
+        android:textColorLink="@color/btn" />
+
+    <EditText
+        android:id="@+id/textIdEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/finish"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="20dp"
+        android:textSize="40sp"
+        android:fontFamily="@font/gagfont"
+        android:background="@color/white"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/finish"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/SettingsButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="20dp"
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        android:text="@string/validate" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -51,11 +51,14 @@ public class BackgroundService extends Service {
     }
 
     private void connectToEndpointInService() {
-        SharedPreferences prefs = getApplicationContext().getSharedPreferences("notif_prefs", MODE_PRIVATE);
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("prefs", MODE_PRIVATE);
         OkHttpClient client = new OkHttpClient();
-
+        if (prefs.getInt("dcid", 0) == 0)
+        {
+            stopSelf();
+        }
         okhttp3.Request request = new okhttp3.Request.Builder()
-                .url("wss://websocket.joshlei.com/growagarden/")
+                .url("wss://websocket.joshlei.com/growagarden?user_id=" + prefs.getInt("dcid", 0))
                 .build();
 
         client.newWebSocket(request, new WebSocketListener() {
