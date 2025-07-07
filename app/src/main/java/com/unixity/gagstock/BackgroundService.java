@@ -12,6 +12,7 @@ import android.net.Network;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,7 +43,8 @@ public class BackgroundService extends Service {
 
                 @Override
                 public void onLost(@NonNull Network network) {
-                    Log.w("Network", "⚠️ Network connection lost. You may want to disconnect the WebSocket here.");
+                    Log.w("Network", "⚠️ Network connection lost.");
+                    connectToEndpointInService();
                 }
             });
         }
@@ -82,6 +84,12 @@ public class BackgroundService extends Service {
                 } catch (Exception e) {
                     Log.e("WebSocket", "Parsing error", e);
                 }
+            }
+
+            @Override
+            public void onFailure(WebSocket webSocket, Throwable t, okhttp3.Response response) {
+                Log.e("WebSocket", "Connection failed", t);
+                connectToEndpointInService();
             }
         });
     }
