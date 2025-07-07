@@ -93,19 +93,23 @@ public class MainActivity extends AppCompatActivity {
         Button btn3 = findViewById(R.id.btn3);
         Button btn4 = findViewById(R.id.btn4);
         Button btn5 = findViewById(R.id.btn5);
+        loading.setText(R.string.load);
 
         btn1.setOnClickListener(v -> {
             gearContainer.setVisibility(View.GONE);
             scrollContainer.setVisibility(View.VISIBLE);
+            loading.setVisibility(View.GONE);
         });
 
         btn2.setOnClickListener(v -> {
             scrollContainer.setVisibility(View.GONE);
             gearContainer.setVisibility(View.VISIBLE);
+            loading.setVisibility(View.GONE);
         });
 
         btn3.setOnClickListener(v -> {
             scrollContainer.setVisibility(View.GONE);
+            gearContainer.setVisibility(View.GONE);
             loading.setText("Eggs Coming soon");
             loading.setVisibility(View.VISIBLE);
         });
@@ -141,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void fetchAndDisplaySeeds() {
 //        String infoUrl = "https://growagardenapi.vercel.app/api/item-info";
-        loading.setText(R.string.load);
+//        loading.setText(R.string.load);
 //        RequestQueue queue = Volley.newRequestQueue(this);
         List<String> seedOrder = getStrings("seed");
         List<String> gearOrder = getStrings("gear");
@@ -233,76 +237,86 @@ public class MainActivity extends AppCompatActivity {
         okhttp3.Request request = new okhttp3.Request.Builder()
                 .url("wss://websocket.joshlei.com/growagarden?user_id=" + prefs.getInt("dcid", 0))
                 .build();
-
-        client.newWebSocket(request, new WebSocketListener() {
-            @Override
-            public void onOpen(WebSocket webSocket, okhttp3.Response response) {
-                Log.d("WebSocket", "Connected to endpoint");
-            }
-
-            @Override
-            public void onMessage(WebSocket webSocket, String text) {
-                try {
-                    JSONObject json = new JSONObject(text);
-                    if (!json.has("seed_stock") || !json.has("gear_stock")) {
-                        Log.d("WebSocket", "Skipping irrelevant packet");
-                        return;
-                    }
-
-                    if (json.has("seed_stock")) {
-                        JSONArray seedStock = json.getJSONArray("seed_stock");
-                        Map<String, JSONObject> stockMap = new HashMap<>();
-
-                        for (int i = 0; i < seedStock.length(); i++) {
-                            JSONObject seed = seedStock.getJSONObject(i);
-                            stockMap.put(seed.getString("display_name"), seed);
-                        }
-
-                        runOnUiThread(() -> {
-                            scrollContent.removeAllViews();
-                            loading.setText("");
-                            for (String name : seedOrder) {
-                                if (stockMap.containsKey(name)) {
-                                    JSONObject seed = stockMap.get(name);
-                                    String quantity = String.valueOf(seed.optInt("quantity", 0));
-                                    String icon = seed.optString("icon", "");
-                                    addCard(name, quantity, icon, "seed");
-                                }
-                            }
-                        });
-                    }
-                    if (json.has("gear_stock")) {
-                        JSONArray gearStock = json.getJSONArray("gear_stock");
-                        Map<String, JSONObject> stockMap = new HashMap<>();
-
-                        for (int i = 0; i < gearStock.length(); i++) {
-                            JSONObject gear = gearStock.getJSONObject(i);
-                            stockMap.put(gear.getString("display_name"), gear);
-                        }
-
-                        runOnUiThread(() -> {
-                            gearContent.removeAllViews();
-                            loading.setText("");
-                            for (String name : gearOrder) {
-                                if (stockMap.containsKey(name)) {
-                                    JSONObject seed = stockMap.get(name);
-                                    String quantity = String.valueOf(seed.optInt("quantity", 0));
-                                    String icon = seed.optString("icon", "");
-                                    addCard(name, quantity, icon, "gear");
-                                }
-                            }
-                        });
-                    }
-                } catch (Exception e) {
-                    Log.e("WebSocket", "Error parsing message", e);
+        try {
+            client.newWebSocket(request, new WebSocketListener() {
+                @Override
+                public void onOpen(WebSocket webSocket, okhttp3.Response response) {
+                    Log.d("WebSocket", "Connected to endpoint");
                 }
-            }
 
-            @Override
-            public void onFailure(WebSocket webSocket, Throwable t, okhttp3.Response response) {
-                Log.e("WebSocket", "Connection failed", t);
-            }
-        });
+                @Override
+                public void onMessage(WebSocket webSocket, String text) {
+                    try {
+                        JSONObject json = new JSONObject(text);
+                        if (!json.has("seed_stock") || !json.has("gear_stock")) {
+                            Log.d("WebSocket", "Skipping irrelevant packet");
+                            return;
+                        }
+
+                        if (json.has("seed_stock")) {
+                            JSONArray seedStock = json.getJSONArray("seed_stock");
+                            Map<String, JSONObject> stockMap = new HashMap<>();
+
+                            for (int i = 0; i < seedStock.length(); i++) {
+                                JSONObject seed = seedStock.getJSONObject(i);
+                                stockMap.put(seed.getString("display_name"), seed);
+                            }
+
+                            runOnUiThread(() -> {
+                                scrollContent.removeAllViews();
+                                loading.setText("");
+                                for (String name : seedOrder) {
+                                    if (stockMap.containsKey(name)) {
+                                        JSONObject seed = stockMap.get(name);
+                                        String quantity = String.valueOf(seed.optInt("quantity", 0));
+                                        String icon = seed.optString("icon", "");
+                                        addCard(name, quantity, icon, "seed");
+                                    }
+                                }
+                            });
+                        }
+                        if (json.has("gear_stock")) {
+                            JSONArray gearStock = json.getJSONArray("gear_stock");
+                            Map<String, JSONObject> stockMap = new HashMap<>();
+
+                            for (int i = 0; i < gearStock.length(); i++) {
+                                JSONObject gear = gearStock.getJSONObject(i);
+                                stockMap.put(gear.getString("display_name"), gear);
+                            }
+
+                            runOnUiThread(() -> {
+                                gearContent.removeAllViews();
+                                loading.setText("");
+                                for (String name : gearOrder) {
+                                    if (stockMap.containsKey(name)) {
+                                        JSONObject seed = stockMap.get(name);
+                                        String quantity = String.valueOf(seed.optInt("quantity", 0));
+                                        String icon = seed.optString("icon", "");
+                                        addCard(name, quantity, icon, "gear");
+                                    }
+                                }
+                            });
+                        }
+                    } catch (Exception e) {
+                        Log.e("WebSocket", "Error parsing message", e);
+                    }
+                }
+
+
+                @Override
+                public void onFailure(WebSocket webSocket, Throwable t, okhttp3.Response response) {
+                    Log.e("WebSocket", "Connection failed", t);
+                    scrollContent.removeAllViews();
+                    gearContent.removeAllViews();
+                    loading.setText(R.string.reconnecting);
+                    loading.setVisibility(View.VISIBLE);
+                    fetchAndDisplaySeeds();
+                }
+            });
+        } catch (Exception e) {
+            Log.e("WebSocket", "java angy: ", e);
+            fetchAndDisplaySeeds();
+        }
 
         client.dispatcher().executorService().shutdown();
     }
