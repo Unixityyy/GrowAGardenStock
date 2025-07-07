@@ -1,5 +1,5 @@
 # GAG Stock
-This is an app I made to check stock for grow a garden. it uses an ~~[API](https://api.joshlei.com/v2/growagarden/stock)~~ [WebSocket](https://discord.com/invite/kCryJ8zPwy) to get the stocks.
+This is an app I made to check stock for grow a garden. it uses a ~~[API](https://api.joshlei.com/v2/growagarden/stock)~~ [WebSocket](https://discord.com/invite/kCryJ8zPwy) to get the stocks.
 ---
 ## Checklist
 - [x] ~~find a better api~~
