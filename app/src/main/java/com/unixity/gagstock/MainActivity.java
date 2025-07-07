@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.bumptech.glide.Glide;
 
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
     private ScrollView scrollContainer;
     private TextView loading;
     private SharedPreferences prefs;
+    private LinearLayout gearContent;
+    private ScrollView gearContainer;
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @SuppressLint("SetTextI18n")
@@ -82,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         }
         scrollContent = findViewById(R.id.scrollContent);
         scrollContainer = findViewById(R.id.scrollContainer);
+        gearContent = findViewById(R.id.gearContent);
+        gearContainer = findViewById(R.id.gearContainer);
         loading = findViewById(R.id.loading);
         Button btn1 = findViewById(R.id.btn1);
         Button btn2 = findViewById(R.id.btn2);
@@ -90,17 +95,13 @@ public class MainActivity extends AppCompatActivity {
         Button btn5 = findViewById(R.id.btn5);
 
         btn1.setOnClickListener(v -> {
-            scrollContent.removeAllViews();
+            gearContainer.setVisibility(View.GONE);
             scrollContainer.setVisibility(View.VISIBLE);
-            loading.setVisibility(ViewPager2.VISIBLE);
-            loading.setText(R.string.load);
-            fetchAndDisplaySeeds();
         });
 
         btn2.setOnClickListener(v -> {
             scrollContainer.setVisibility(View.GONE);
-            loading.setText("Gears Coming soon");
-            loading.setVisibility(View.VISIBLE);
+            gearContainer.setVisibility(View.VISIBLE);
         });
 
         btn3.setOnClickListener(v -> {
@@ -142,7 +143,8 @@ public class MainActivity extends AppCompatActivity {
 //        String infoUrl = "https://growagardenapi.vercel.app/api/item-info";
         loading.setText(R.string.load);
 //        RequestQueue queue = Volley.newRequestQueue(this);
-        List<String> seedOrder = getStrings();
+        List<String> seedOrder = getStrings("seed");
+        List<String> gearOrder = getStrings("gear");
 //        JsonArrayRequest infoRequest = new JsonArrayRequest(Request.Method.GET, infoUrl, null,
 //                infoResponse -> {
 //                    try {
@@ -174,33 +176,58 @@ public class MainActivity extends AppCompatActivity {
 //                },
 //                error -> Log.e("INFO_API", "Failed to load item info", error)
 //        );
-        connectToEndpoint(seedOrder);
+        connectToEndpoint(seedOrder, gearOrder);
 //        queue.add(infoRequest);
     }
 
     @NonNull
-    private static List<String> getStrings() {
-        List<String> seedOrder = new ArrayList<>();
-        seedOrder.add("Carrot");
-        seedOrder.add("Strawberry");
-        seedOrder.add("Blueberry");
-        seedOrder.add("Tomato");
-        seedOrder.add("Cauliflower");
-        seedOrder.add("Watermelon");
-        seedOrder.add("Green Apple");
-        seedOrder.add("Avocado");
-        seedOrder.add("Banana");
-        seedOrder.add("Pineapple");
-        seedOrder.add("Kiwi");
-        seedOrder.add("Bell Pepper");
-        seedOrder.add("Prickly Pear");
-        seedOrder.add("Loquat");
-        seedOrder.add("Feijoa");
-        seedOrder.add("Sugar Apple");
-        return seedOrder;
+    private static List<String> getStrings(String type) {
+        List<String> order = new ArrayList<>();
+        if (Objects.equals(type, "seed")) {
+            order.add("Carrot");
+            order.add("Strawberry");
+            order.add("Blueberry");
+            order.add("Orange Tulip");
+            order.add("Tomato");
+            order.add("Daffodil");
+            order.add("Watermelon");
+            order.add("Pumpkin");
+            order.add("Apple");
+            order.add("Bamboo");
+            order.add("Coconut");
+            order.add("Cactus");
+            order.add("Dragon Fruit");
+            order.add("Mango");
+            order.add("Grape");
+            order.add("Mushroom");
+            order.add("Pepper");
+            order.add("Cacao");
+            order.add("Beanstalk");
+            order.add("Ember Lily");
+            order.add("Sugar Apple");
+            order.add("Burning Bud");
+            return order;
+        } else if (Objects.equals(type, "gear")) {
+            order.add("Watering Can");
+            order.add("Trowel");
+            order.add("Recall Wrench");
+            order.add("Basic Sprinkler");
+            order.add("Advanced Sprinkler");
+            order.add("Godly Sprinkler");
+            order.add("Magnifying Glass");
+            order.add("Tanning Mirror");
+            order.add("Master Sprinkler");
+            order.add("Cleaning Spray");
+            order.add("Favorite Tool");
+            order.add("Harvest Tool");
+            order.add("Friendship Pot");
+            return order;
+        }
+        return order;
     }
 
-    private void connectToEndpoint(List<String> seedOrder) {
+
+    private void connectToEndpoint(List<String> seedOrder, List<String> gearOrder) {
         OkHttpClient client = new OkHttpClient();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
@@ -217,32 +244,55 @@ public class MainActivity extends AppCompatActivity {
             public void onMessage(WebSocket webSocket, String text) {
                 try {
                     JSONObject json = new JSONObject(text);
-                    if (!json.has("seed_stock")) {
+                    if (!json.has("seed_stock") || !json.has("gear_stock")) {
                         Log.d("WebSocket", "Skipping irrelevant packet");
                         return;
                     }
 
-                    JSONArray seedStock = json.getJSONArray("seed_stock");
-                    Map<String, JSONObject> stockMap = new HashMap<>();
+                    if (json.has("seed_stock")) {
+                        JSONArray seedStock = json.getJSONArray("seed_stock");
+                        Map<String, JSONObject> stockMap = new HashMap<>();
 
-                    for (int i = 0; i < seedStock.length(); i++) {
-                        JSONObject seed = seedStock.getJSONObject(i);
-                        stockMap.put(seed.getString("display_name"), seed);
-                    }
-
-                    runOnUiThread(() -> {
-                        scrollContent.removeAllViews();
-                        loading.setText("");
-                        for (String name : seedOrder) {
-                            if (stockMap.containsKey(name)) {
-                                JSONObject seed = stockMap.get(name);
-                                String quantity = String.valueOf(seed.optInt("quantity", 0));
-                                String icon = seed.optString("icon", "");
-                                addSeedCard(name, quantity, icon);
-                            }
+                        for (int i = 0; i < seedStock.length(); i++) {
+                            JSONObject seed = seedStock.getJSONObject(i);
+                            stockMap.put(seed.getString("display_name"), seed);
                         }
-                    });
 
+                        runOnUiThread(() -> {
+                            scrollContent.removeAllViews();
+                            loading.setText("");
+                            for (String name : seedOrder) {
+                                if (stockMap.containsKey(name)) {
+                                    JSONObject seed = stockMap.get(name);
+                                    String quantity = String.valueOf(seed.optInt("quantity", 0));
+                                    String icon = seed.optString("icon", "");
+                                    addCard(name, quantity, icon, "seed");
+                                }
+                            }
+                        });
+                    }
+                    if (json.has("gear_stock")) {
+                        JSONArray gearStock = json.getJSONArray("gear_stock");
+                        Map<String, JSONObject> stockMap = new HashMap<>();
+
+                        for (int i = 0; i < gearStock.length(); i++) {
+                            JSONObject gear = gearStock.getJSONObject(i);
+                            stockMap.put(gear.getString("display_name"), gear);
+                        }
+
+                        runOnUiThread(() -> {
+                            gearContent.removeAllViews();
+                            loading.setText("");
+                            for (String name : gearOrder) {
+                                if (stockMap.containsKey(name)) {
+                                    JSONObject seed = stockMap.get(name);
+                                    String quantity = String.valueOf(seed.optInt("quantity", 0));
+                                    String icon = seed.optString("icon", "");
+                                    addCard(name, quantity, icon, "gear");
+                                }
+                            }
+                        });
+                    }
                 } catch (Exception e) {
                     Log.e("WebSocket", "Error parsing message", e);
                 }
@@ -258,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    private void addSeedCard(String name, String stock, String imageUrl) {
+    private void addCard(String name, String stock, String imageUrl, String type) {
         Typeface gagFont = ResourcesCompat.getFont(this, R.font.gagfont);
         CardView card = new CardView(this);
         card.setRadius(12);
@@ -311,7 +361,10 @@ public class MainActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         cardParams.setMargins(16, 16, 16, 0);
         card.setLayoutParams(cardParams);
-
-        scrollContent.addView(card);
+        if (Objects.equals(type, "seed")) {
+            scrollContent.addView(card);
+        } else if (Objects.equals(type, "gear")) {
+            gearContent.addView(card);
+        }
     }
 }

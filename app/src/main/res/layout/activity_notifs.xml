@@ -38,208 +38,215 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <CheckBox
-                style="@style/NotifCheckbox"
-                android:id="@+id/cauliflower"
-                android:text="@string/cauliflower"
-                tools:ignore="MissingConstraints" />
+<!--            <CheckBox-->
+<!--                style="@style/NotifCheckbox"-->
+<!--                android:id="@+id/cauliflower"-->
+<!--                android:text="@string/cauliflower"-->
+<!--                tools:ignore="MissingConstraints" />-->
 
-            <CheckBox
-                style="@style/NotifCheckbox"
-                android:id="@+id/watermelon"
-                android:text="@string/watermelon"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintTop_toBottomOf="@id/cauliflower" />
+<!--            <CheckBox-->
+<!--                style="@style/NotifCheckbox"-->
+<!--                android:id="@+id/watermelon"-->
+<!--                android:text="@string/watermelon"-->
+<!--                tools:ignore="MissingConstraints"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/cauliflower" />-->
 
-            <CheckBox
-                style="@style/NotifCheckbox"
-                android:id="@+id/greenapple"
-                android:text="@string/green_apple"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintTop_toBottomOf="@id/watermelon" />
+<!--            <CheckBox-->
+<!--                style="@style/NotifCheckbox"-->
+<!--                android:id="@+id/greenapple"-->
+<!--                android:text="@string/green_apple"-->
+<!--                tools:ignore="MissingConstraints"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/watermelon" />-->
 
-            <CheckBox
-                style="@style/NotifCheckbox"
-                android:id="@+id/avocado"
-                android:text="@string/avocado"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintTop_toBottomOf="@id/greenapple" />
+<!--            <CheckBox-->
+<!--                style="@style/NotifCheckbox"-->
+<!--                android:id="@+id/avocado"-->
+<!--                android:text="@string/avocado"-->
+<!--                tools:ignore="MissingConstraints"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/greenapple" />-->
 
-            <CheckBox
-                style="@style/NotifCheckbox"
-                android:id="@+id/banana"
-                android:text="@string/banana"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintTop_toBottomOf="@id/avocado" />
+<!--            <CheckBox-->
+<!--                style="@style/NotifCheckbox"-->
+<!--                android:id="@+id/banana"-->
+<!--                android:text="@string/banana"-->
+<!--                tools:ignore="MissingConstraints"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/avocado" />-->
 
-            <CheckBox
-                style="@style/NotifCheckbox"
-                android:id="@+id/pineapple"
-                android:text="@string/pineapple"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintTop_toBottomOf="@id/banana" />
+<!--            <CheckBox-->
+<!--                style="@style/NotifCheckbox"-->
+<!--                android:id="@+id/pineapple"-->
+<!--                android:text="@string/pineapple"-->
+<!--                tools:ignore="MissingConstraints"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/banana" />-->
 
-            <CheckBox
-                style="@style/NotifCheckbox"
-                android:id="@+id/kiwi"
-                android:text="@string/kiwi"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintTop_toBottomOf="@id/pineapple" />
+<!--            <CheckBox-->
+<!--                style="@style/NotifCheckbox"-->
+<!--                android:id="@+id/kiwi"-->
+<!--                android:text="@string/kiwi"-->
+<!--                tools:ignore="MissingConstraints"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/pineapple" />-->
 
-            <CheckBox
-                style="@style/NotifCheckbox"
-                android:id="@+id/bellpepper"
-                android:text="@string/bell_pepper"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintTop_toBottomOf="@id/kiwi" />
+<!--            <CheckBox-->
+<!--                style="@style/NotifCheckbox"-->
+<!--                android:id="@+id/bellpepper"-->
+<!--                android:text="@string/bell_pepper"-->
+<!--                tools:ignore="MissingConstraints"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/kiwi" />-->
 
-            <CheckBox
-                style="@style/NotifCheckbox"
-                android:id="@+id/pricklypear"
-                android:text="@string/prickly_pear"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintTop_toBottomOf="@id/bellpepper" />
+<!--            <CheckBox-->
+<!--                style="@style/NotifCheckbox"-->
+<!--                android:id="@+id/pricklypear"-->
+<!--                android:text="@string/prickly_pear"-->
+<!--                tools:ignore="MissingConstraints"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/bellpepper" />-->
 
-            <CheckBox
-                style="@style/NotifCheckbox"
-                android:id="@+id/loquat"
-                android:text="@string/loquat"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintTop_toBottomOf="@id/pricklypear" />
+<!--            <CheckBox-->
+<!--                style="@style/NotifCheckbox"-->
+<!--                android:id="@+id/loquat"-->
+<!--                android:text="@string/loquat"-->
+<!--                tools:ignore="MissingConstraints"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/pricklypear" />-->
 
-            <CheckBox
-                style="@style/NotifCheckbox"
-                android:id="@+id/feijoa"
-                android:text="@string/feijoa"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintTop_toBottomOf="@id/loquat" />
+<!--            <CheckBox-->
+<!--                style="@style/NotifCheckbox"-->
+<!--                android:id="@+id/feijoa"-->
+<!--                android:text="@string/feijoa"-->
+<!--                tools:ignore="MissingConstraints"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/loquat" />-->
 
-            <CheckBox
-                style="@style/NotifCheckbox"
-                android:id="@+id/sugarapple"
-                android:text="@string/sugar_apple"
-                tools:ignore="MissingConstraints"
-                app:layout_constraintTop_toBottomOf="@id/feijoa" />
+<!--            <CheckBox-->
+<!--                style="@style/NotifCheckbox"-->
+<!--                android:id="@+id/sugarapple"-->
+<!--                android:text="@string/sugar_apple"-->
+<!--                tools:ignore="MissingConstraints"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/feijoa" />-->
 
 
-
-            <!--            <CheckBox-->
+<!--            <CheckBox-->
 <!--                android:id="@+id/corn"-->
 <!--                style="@style/NotifCheckbox"-->
 <!--                android:text="@string/corn"-->
 <!--                tools:ignore="MissingConstraints" />-->
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/daffodil"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/daffodil"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/corn"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/daffodil"
+                style="@style/NotifCheckbox"
+                android:text="@string/daffodil"
+                tools:ignore="MissingConstraints" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/watermelon"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/watermelon"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/daffodil"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/watermelon"
+                style="@style/NotifCheckbox"
+                android:text="@string/watermelon"
+                app:layout_constraintTop_toBottomOf="@id/daffodil"
+                tools:ignore="MissingConstraints" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/pumpkin"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/pumpkin"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/watermelon"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/pumpkin"
+                style="@style/NotifCheckbox"
+                android:text="@string/pumpkin"
+                app:layout_constraintTop_toBottomOf="@id/watermelon"
+                tools:ignore="MissingConstraints" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/apple"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/apple"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/pumpkin"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/apple"
+                style="@style/NotifCheckbox"
+                android:text="@string/apple"
+                app:layout_constraintTop_toBottomOf="@id/pumpkin"
+                tools:ignore="MissingConstraints" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/bamboo"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/bamboo"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/apple"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/bamboo"
+                style="@style/NotifCheckbox"
+                android:text="@string/bamboo"
+                app:layout_constraintTop_toBottomOf="@id/apple"
+                tools:ignore="MissingConstraints" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/coconut"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/coconut"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/bamboo"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/coconut"
+                style="@style/NotifCheckbox"
+                android:text="@string/coconut"
+                app:layout_constraintTop_toBottomOf="@id/bamboo"
+                tools:ignore="MissingConstraints" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/cactus"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/cactus"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/coconut"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/cactus"
+                style="@style/NotifCheckbox"
+                android:text="@string/cactus"
+                app:layout_constraintTop_toBottomOf="@id/coconut"
+                tools:ignore="MissingConstraints" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/dragonfruit"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/dragon_fruit"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/cactus"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/dragonfruit"
+                style="@style/NotifCheckbox"
+                android:text="@string/dragon_fruit"
+                app:layout_constraintTop_toBottomOf="@id/cactus"
+                tools:ignore="MissingConstraints" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/mango"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/mango"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/dragonfruit"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/mango"
+                style="@style/NotifCheckbox"
+                android:text="@string/mango"
+                app:layout_constraintTop_toBottomOf="@id/dragonfruit"
+                tools:ignore="MissingConstraints" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/grape"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/grape"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/mango"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/grape"
+                style="@style/NotifCheckbox"
+                android:text="@string/grape"
+                app:layout_constraintTop_toBottomOf="@id/mango"
+                tools:ignore="MissingConstraints" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/mushroom"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/mushroom"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/grape"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/mushroom"
+                style="@style/NotifCheckbox"
+                android:text="@string/mushroom"
+                app:layout_constraintTop_toBottomOf="@id/grape"
+                tools:ignore="MissingConstraints" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/pepper"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/pepper"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/mushroom"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/pepper"
+                style="@style/NotifCheckbox"
+                android:text="@string/pepper"
+                app:layout_constraintTop_toBottomOf="@id/mushroom"
+                tools:ignore="MissingConstraints" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/cacao"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/cacao"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/pepper"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/cacao"
+                style="@style/NotifCheckbox"
+                android:text="@string/cacao"
+                app:layout_constraintTop_toBottomOf="@id/pepper"
+                tools:ignore="MissingConstraints" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/beanstalk"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/beanstalk"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/cacao"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/beanstalk"
+                style="@style/NotifCheckbox"
+                android:text="@string/beanstalk"
+                app:layout_constraintTop_toBottomOf="@id/cacao"
+                tools:ignore="MissingConstraints" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/sugarapple"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/sugar_apple"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/beanstalk"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/emberlily"
+                style="@style/NotifCheckbox"
+                android:text="@string/ember_lily"
+                app:layout_constraintTop_toBottomOf="@id/beanstalk"
+                tools:ignore="MissingConstraints" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/emberlily"-->
-<!--                style="@style/NotifCheckbox"-->
-<!--                android:text="@string/ember_lily"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/sugarapple"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <CheckBox
+                android:id="@+id/sugarapple"
+                style="@style/NotifCheckbox"
+                android:text="@string/sugar_apple"
+                app:layout_constraintTop_toBottomOf="@id/emberlily"
+                tools:ignore="MissingConstraints" />
+
+            <CheckBox
+                android:id="@+id/burningbud"
+                style="@style/NotifCheckbox"
+                android:text="@string/burning_bud"
+                app:layout_constraintTop_toBottomOf="@id/sugarapple"
+                tools:ignore="MissingConstraints" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

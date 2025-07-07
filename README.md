@@ -4,8 +4,9 @@ This is an app I made to check stock for grow a garden. it uses an ~~[API](https
 ## Checklist
 - [x] ~~find a better api~~
 - [x] ~~add notifications~~
-- [ ] get gears to work
+- [x] ~~get gears to work~~
 - [ ] get eggs to work
 - [x] ~~switch from api to websocket~~
 - [x] ~~make the user join a dc server~~
+- [ ] add notifs for the separate things (gears, seeds, eggs)
 (its the service i use, they added a requirement to send the discord user id)
