@@ -12,3 +12,4 @@ This is an app I made to check stock for grow a garden. it uses a ~~[API](https:
 - [ ] add a settings page
 - [ ] add animations
 - [ ] (never gonna happen) rewrite in kotlin
+- [ ] auto updates
