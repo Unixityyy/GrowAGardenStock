@@ -7,6 +7,6 @@ This is an app I made to check stock for grow a garden. it uses an ~~[API](https
 - [x] ~~get gears to work~~
 - [ ] get eggs to work
 - [x] ~~switch from api to websocket~~
-- [x] ~~make the user join a dc server~~
+- [x] ~~make the user join a dc server (its the service i use, they added a requirement to send the discord user id)~~
 - [ ] add notifs for the separate things (gears, seeds, eggs)
-(its the service i use, they added a requirement to send the discord user id)
+
