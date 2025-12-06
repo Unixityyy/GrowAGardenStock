@@ -1,3 +1,5 @@
+# I WILL NOT MAINTAIN THIS ANYMORE! I may make a new repo with occasional updates, but I probably won't play GAG when I get unbanned.
+---
 # GAG Stock
 This is an app I made to check stock for grow a garden. it uses a ~~[API](https://api.joshlei.com/v2/growagarden/stock)~~ [WebSocket](https://discord.com/invite/kCryJ8zPwy) to get the stocks.
 ---
